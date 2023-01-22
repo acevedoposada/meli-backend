@@ -7,11 +7,23 @@ import { Filter, ItemModel, ItemsModel } from '../models/items';
 
 const router = Router();
 
+const PAGE_SIZE = 50;
+
+function pageOffsetFn(page: number) {
+  if (Number.isNaN(page)) return null;
+  return (page - 1) * PAGE_SIZE;
+}
+
 router.get('/', async (req: Request, res: Response) => {
   try {
-    const { search } = url.parse(req.url, true).query;
+    const { search, page } = url.parse(req.url, true).query;
+    const pageOffset = pageOffsetFn(Number(page));
     const [response, resCurrency] = await Promise.all([
-      apiServer(`/sites/MLA/search?q=${search ?? ''}#json`),
+      apiServer(
+        `/sites/MLA/search?q=${search ?? ''}${
+          pageOffset ? `&offset=${pageOffset}` : ''
+        }#json`
+      ),
       apiServer(`/currencies`),
     ]);
 
