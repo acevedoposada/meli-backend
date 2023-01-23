@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 
 import * as routes from './routes';
+import docs from './views/docs';
 
 dotenv.config();
 
@@ -16,11 +17,8 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/items', routes.items);
 
-app.set('views', __dirname + '/views');
-app.engine('html', require('ejs').renderFile);
-
 app.get('/', (_: Request, res: Response) => {
-  res.render('index.html');
+  res.send(docs);
 });
 
 app.listen(port, () => {
