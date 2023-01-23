@@ -86,11 +86,18 @@ router.get('/:id', async (req: Request, res: Response) => {
       (curr: any) => curr.id === details.currency_id
     );
     const sellerData = (await apiServer(`/users/${details.seller_id}`)).data;
+    const categoryData = (await apiServer(`/categories/${details.category_id}`))
+      .data;
 
     const data: ItemModel = {
       author: {
         name: sellerData.nickname,
         lastname: '',
+      },
+      category: {
+        id: categoryData.id,
+        name: categoryData.name,
+        path_from_root: categoryData.path_from_root,
       },
       item: {
         id: details.id,
