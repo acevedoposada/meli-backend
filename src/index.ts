@@ -16,8 +16,11 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/items', routes.items);
 
+app.set('views', __dirname + '/views');
+app.engine('html', require('ejs').renderFile);
+
 app.get('/', (_: Request, res: Response) => {
-  res.send('MELI technical test');
+  res.render('index.html');
 });
 
 app.listen(port, () => {
