@@ -47,7 +47,7 @@ export interface Pagination {
 
 export interface ItemModel {
   author: Author;
-  category: Category;
+  category?: Category;
   item: Product;
 }
 
